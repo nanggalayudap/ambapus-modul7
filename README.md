@@ -91,5 +91,5 @@ Access the application in your browser at `http://127.0.0.1:8000`.
 ## 👤 Developer Information
 
 * **Name:** Nanggala Yuda Pratama
-* **Course:** Advanced Web-Based Programming — Module VII (SPA, CI/CD, and Deployment)
+* **Course:** Advanced Web-Based Programming 
 * **Department:** Information Systems, Universitas Trunojoyo Madura
