@@ -1,58 +1,95 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📚 AmbaPus — Digital Library System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**AmbaPus** is a **Laravel**-based Digital Library System web application featuring book collection management, borrowing circulation, and Role-Based Access Control (RBAC). This project is configured to run on a serverless architecture using **Vercel** and a managed PostgreSQL database on **Supabase**.
 
-## About Laravel
+## 🌐 Project Links
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* **GitHub Repository:** `https://github.com/nanggalayudap/ambapus-modul7`
+* **Live Application (Vercel):** `ambapus-modul7.vercel.app`
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🛠️ Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* **Backend Framework:** Laravel (PHP 8.2+)
+* **Frontend & Build Tool:** Blade, Tailwind CSS, Vite
+* **Database:** PostgreSQL 
+* **Deployment & CI/CD:** GitHub + Vercel
 
-## Learning Laravel
+## ✨ Key Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. **Authentication & Role-Based Access Control (RBAC):**
+   * **Admin:** Manages all book records (create, update, delete), user accounts, and monitors all borrowing transactions.
+   * **Librarian (Petugas):** Manages book records and verifies borrowing transactions across all students.
+   * **Student (Siswa):** Browses the book catalog and accesses their own borrowing history.
+2. **Book Catalog Management:** Structured search and management of the library's book inventory.
+3. **Borrowing Transactions:** Recording of book loans and returns with strict per-user access control.
+4. **Application Security:** Route protection using authentication middleware and Gates, enforced `HTTPS` scheme in production environments, and isolation of sensitive configuration files.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🏗️ Deployment Architecture (CI/CD)
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```text
+[Developer] --(git push)--> [GitHub Repository] --(Webhook Auto-Build)--> [Vercel Serverless] <---> [Supabase PostgreSQL]
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+* **GitHub:** Hosts the application source code and triggers a webhook on every push to the `main` branch.
+* **Vercel:** Builds frontend assets (`npm run build`) and executes the Laravel application via a serverless function (`api/index.php`) in the Singapore region (`sin1`).
+* **Supabase:** Provides an external PostgreSQL database accessed via the **Transaction Pooler** (port `6543`) to efficiently handle short-lived serverless connections.
 
-## Contributing
+## 💻 Running Locally
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. Prerequisites
 
-## Code of Conduct
+* PHP $\ge 8.2$ with `pdo_pgsql` and `pgsql` extensions enabled
+* Composer
+* Node.js & NPM
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 2. Installation
 
-## Security Vulnerabilities
+```bash
+# Clone the repository
+git clone https://github.com/nanggalayudap/ambapus-modul7.git
+cd ambapus-modul7
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Install PHP and JavaScript dependencies
+composer install
+npm install
 
-## License
+# Copy the environment file
+cp .env.example .env
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Generate application key
+php artisan key:generate
+```
+
+### 3. Local Database Configuration (`.env`)
+
+Configure the database connection in your `.env` file using Supabase's **Session Pooler (port 5432)**:
+
+```env
+DB_CONNECTION=pgsql
+DB_HOST=aws-1-ap-southeast-1.pooler.supabase.com
+DB_PORT=5432
+DB_DATABASE=postgres
+DB_USERNAME=postgres.<project-ref>
+DB_PASSWORD=<your-database-password>
+```
+
+### 4. Migration, Seeding, and Starting the Server
+
+```bash
+# Run database migrations and seed initial data
+php artisan migrate --seed
+
+# Build frontend assets
+npm run build
+
+# Start the local development server
+php artisan serve
+```
+
+Access the application in your browser at `http://127.0.0.1:8000`.
+
+## 👤 Developer Information
+
+* **Name:** Nanggala Yuda Pratama
+* **Course:** Advanced Web-Based Programming — Module VII (SPA, CI/CD, and Deployment)
+* **Department:** Information Systems, Universitas Trunojoyo Madura
