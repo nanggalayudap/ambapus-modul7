@@ -1,7 +1,6 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-    <div><h2 class="text-2xl font-bold text-center">Login AmbaPus - 25041100081</h2></div>
 
     <div class="mb-6">
         <h3 class="text-lg font-bold text-slate-900 tracking-tight">Masuk ke Akun</h3>
